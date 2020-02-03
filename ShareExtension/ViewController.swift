@@ -14,7 +14,21 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
 
+    @IBAction func share(){
+        
+//        let text = "Hay"
+        let homePage = "https://iop883684.github.io/cinemaplan/"
+//        let url = URL(string:homePage)!
+        
+        let vc = UIActivityViewController(activityItems: [homePage], applicationActivities: [])
+        present(vc, animated: true, completion: nil)
+        
+    }
 
 }
 
