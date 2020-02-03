@@ -7,17 +7,42 @@
 //
 
 import UIKit
+import YoutubePlayerView
 
 class ViewController: UIViewController {
+    
+    @IBOutlet var playerView:YoutubePlayerView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let playerVars: [String: Any] = [
+            "controls": 1,
+            "modestbranding": 1,
+            "playsinline": 1,
+            "rel": 0,
+            "showinfo": 0,
+            "autoplay": 1
+        ]
+        playerView.loadWithVideoId("hfFCAUM7gnc", with: playerVars)
+//        self.playerView.loadWithVideoId("hfFCAUM7gnc")
+        self.playerView.delegate = self
+        
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(appMovedToBackground),
+                                               name: UIApplication.willResignActiveNotification,
+                                               object: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
+    @objc func appMovedToBackground() {
+        print("App moved to background!")
+        DispatchQueue.main.asyncAfter(deadline: .now()+2) {
+            self.playerView.play()
+        }
     }
+    
+
 
     @IBAction func share(){
         
@@ -32,3 +57,19 @@ class ViewController: UIViewController {
 
 }
 
+extension ViewController: YoutubePlayerViewDelegate{
+    
+    func playerView(_ playerView: YoutubePlayerView, didChangedToState state: YoutubePlayerState) {
+        
+        print(state.rawValue)
+        switch (state) {
+        case .playing:
+            break;
+        case .paused:
+            break;
+          default:
+            break;
+        }
+    }
+    
+}

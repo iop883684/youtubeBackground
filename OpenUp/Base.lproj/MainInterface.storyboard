@@ -46,7 +46,6 @@
                             <constraint firstItem="u2M-FS-clJ" firstAttribute="centerY" secondItem="zMn-AG-sqS" secondAttribute="centerY" id="G8h-Fb-l3W"/>
                             <constraint firstItem="NOA-Dm-cuz" firstAttribute="leading" secondItem="VVe-Uw-JpX" secondAttribute="leading" id="HxO-8t-aoh"/>
                             <constraint firstItem="u2M-FS-clJ" firstAttribute="leading" secondItem="VVe-Uw-JpX" secondAttribute="leading" constant="10" id="s7e-9h-nkV"/>
-                            <constraint firstItem="VVe-Uw-JpX" firstAttribute="trailing" secondItem="u2M-FS-clJ" secondAttribute="trailing" constant="10" id="tNA-kA-rXU"/>
                             <constraint firstItem="NOA-Dm-cuz" firstAttribute="top" secondItem="VVe-Uw-JpX" secondAttribute="top" id="we0-1t-bgp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VVe-Uw-JpX"/>
