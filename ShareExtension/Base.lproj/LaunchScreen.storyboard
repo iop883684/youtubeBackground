@@ -22,7 +22,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Power by XCDYouTubeKit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ipa-l9-3yW">
-                                <rect key="frame" x="109.5" y="841" width="195" height="21"/>
+                                <rect key="frame" x="109.5" y="831" width="195" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -33,7 +33,7 @@
                             <constraint firstItem="KNh-mu-Ekj" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="DRv-lp-ktt"/>
                             <constraint firstItem="ipa-l9-3yW" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="KOl-V8-1Ib"/>
                             <constraint firstItem="KNh-mu-Ekj" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Uz9-Sf-Sum"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ipa-l9-3yW" secondAttribute="bottom" id="yoA-mv-Ypx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ipa-l9-3yW" secondAttribute="bottom" constant="10" id="yoA-mv-Ypx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

@@ -126,14 +126,14 @@ extension UIView {
     public func reconnectPlayer(rootViewController: UIViewController) {
         let viewController = rootViewController.topMostViewController()
         guard let playerViewController = viewController as? AVPlayerViewController else {
-            if rootViewController is UINavigationController {
-                guard let vc = (rootViewController as! UINavigationController).visibleViewController else { return }
-                for childVC in vc.children  {
+            
+                
+                for childVC in rootViewController.children  {
                     guard let playerViewController = childVC as? AVPlayerViewController else { continue }
                     playerViewController.player = self.player
                     break
                 }
-            }
+            
             return
         }
         playerViewController.player = self.player

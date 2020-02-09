@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8098D75A23E49AA80013710C"
-               BuildableName = "ShareExtension.app"
+               BuildableName = "YT Player.app"
                BlueprintName = "ShareExtension"
                ReferencedContainer = "container:ShareExtension.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8098D75A23E49AA80013710C"
-            BuildableName = "ShareExtension.app"
+            BuildableName = "YT Player.app"
             BlueprintName = "ShareExtension"
             ReferencedContainer = "container:ShareExtension.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8098D75A23E49AA80013710C"
-            BuildableName = "ShareExtension.app"
+            BuildableName = "YT Player.app"
             BlueprintName = "ShareExtension"
             ReferencedContainer = "container:ShareExtension.xcodeproj">
          </BuildableReference>

@@ -136,9 +136,9 @@
 			children = (
 				802F495023E8A29E00F611DA /* ShareExtension.entitlements */,
 				8098D75E23E49AA80013710C /* AppDelegate.swift */,
-				807EA59C23EF724A007F156A /* AVPlayerViewControllerManager.swift */,
 				8098D76223E49AA80013710C /* ViewController.swift */,
 				8098D76423E49AA80013710C /* Main.storyboard */,
+				807EA59C23EF724A007F156A /* AVPlayerViewControllerManager.swift */,
 				8098D76723E49AA90013710C /* Assets.xcassets */,
 				8098D76923E49AA90013710C /* LaunchScreen.storyboard */,
 				8098D76C23E49AA90013710C /* Info.plist */,
