@@ -10,5 +10,4 @@ This is action extension support open video youtube in XCDYouTubeKit
 
 ## License
 
-Power by XCDYouTubeKit
-XCDYouTubeKit is available under the MIT license. See the [LICENSE](LICENSE) file for more information.
+Power by XCDYouTubeKit which is available under the MIT license. See the [LICENSE](LICENSE) file for more information.
