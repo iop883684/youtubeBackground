@@ -1,6 +1,6 @@
 ## About
 
-This is action extension support open video youtube in XCDYouTubeKit
+This is action extension support open youtube video into XCDYouTubeKit
 
 <p align="center">
 <img src="Screenshots/img1.png" width="250" height="445">
