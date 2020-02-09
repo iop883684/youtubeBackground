@@ -24,6 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print("Playback error:", error)
         }
+//        application.beginReceivingRemoteControlEvents()
+        
+        #if targetEnvironment(simulator)
+        UserDefaults.standard.set("https://www.youtube.com/watch?v=W86cTIoMv2U", forKey: "save_url")
+        #endif
+        
         return true
     }
 
@@ -31,14 +37,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
         let ytUrl = url.absoluteString.replacingOccurrences(of: "shareUrl://", with: "")
-        let alertController = UIAlertController(title: "Url", message: "\(ytUrl)", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
-        alertController.addAction(okAction)
-        
-        window?.rootViewController?.present(alertController, animated: true, completion: nil)
+        if ytUrl.contains("youtube"){
+            UserDefaults.standard.set(ytUrl, forKey: "save_url")
+        }
+
         return true
     }
-
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        AVPlayerViewControllerManager.shared.disconnectPlayer()
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: self.window!.rootViewController!)
+    }
 
 }
 

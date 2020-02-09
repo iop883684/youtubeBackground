@@ -7,69 +7,160 @@
 //
 
 import UIKit
-import YoutubePlayerView
+import XCDYouTubeKit
+import AVFoundation
+import AVKit
+
+struct YouTubeVideoQuality {
+    static let hd720 = NSNumber(value: XCDYouTubeVideoQuality.HD720.rawValue)
+    static let medium360 = NSNumber(value: XCDYouTubeVideoQuality.medium360.rawValue)
+    static let small240 = NSNumber(value: XCDYouTubeVideoQuality.small240.rawValue)
+}
+
 
 class ViewController: UIViewController {
     
-    @IBOutlet var playerView:YoutubePlayerView!
-
+    @IBOutlet var searchText:UITextField!
+    @IBOutlet var btSearch:UIButton!
+    
+    @IBOutlet var imgThumb:UIImageView!
+    @IBOutlet var lbTitle:UILabel!
+    
+    @IBOutlet var btClearUrl:UIButton!
+    @IBOutlet var qualitySwitch: UISwitch!
+    @IBOutlet var playerContainer: UIView!
+    
+    var listUrl = [AnyHashable: URL]()
+    
+    var willResume = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let playerVars: [String: Any] = [
-            "controls": 1,
-            "modestbranding": 1,
-            "playsinline": 1,
-            "rel": 0,
-            "showinfo": 0,
-            "autoplay": 1
-        ]
-        playerView.loadWithVideoId("hfFCAUM7gnc", with: playerVars)
-//        self.playerView.loadWithVideoId("hfFCAUM7gnc")
-        self.playerView.delegate = self
+        btSearch.layer.cornerRadius = 5
+        btClearUrl.layer.cornerRadius = 5
         
-
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(appMovedToBackground),
-                                               name: UIApplication.willResignActiveNotification,
+                                               selector: #selector(appBecomeActive),
+                                               name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
+        setupPlayer()
     }
     
-    @objc func appMovedToBackground() {
-        print("App moved to background!")
-        DispatchQueue.main.asyncAfter(deadline: .now()+2) {
-            self.playerView.play()
+    
+    @objc func appBecomeActive(){
+        if let url = UserDefaults.standard.string(forKey: "save_url"){
+            searchText.text = url
+            if listUrl.count == 0{
+                getStreamingLink(searchText.text)
+            }
+        }   
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        searchText.text = UserDefaults.standard.string(forKey: "save_url")
+        
+    }
+    
+    @IBAction func searchBtPress(){
+        
+        getStreamingLink(searchText.text)
+        
+    }
+    
+    func getYoutubeId(youtubeUrl: String) -> String? {
+        return URLComponents(string: youtubeUrl)?.queryItems?.first(where: { $0.name == "v" })?.value
+    }
+    
+    func getStreamingLink(_ link: String?){
+        
+        guard let ytLink = link else{
+            print("empty string")
+            return
         }
+        print(ytLink)
+        let playId = getYoutubeId(youtubeUrl: ytLink)
+        
+        listUrl.removeAll()
+        
+        XCDYouTubeClient.default().getVideoWithIdentifier(playId) { [weak self] (video, error ) in
+            
+            guard let sSelf = self else {return}
+            if let video = video {
+                
+                sSelf.listUrl = video.streamURLs;
+                print(video.streamURLs)
+                sSelf.updateThumbTitle(video: video)
+                
+                AVPlayerViewControllerManager.shared.lowQualityMode = sSelf.qualitySwitch.isOn
+                AVPlayerViewControllerManager.shared.video = video
+                
+            }
+        }
+        
     }
     
-
-
-    @IBAction func share(){
+    func updateThumbTitle(video: XCDYouTubeVideo){
         
-//        let text = "Hay"
-        let homePage = "https://iop883684.github.io/cinemaplan/"
-//        let url = URL(string:homePage)!
+        lbTitle.text = video.title
         
-        let vc = UIActivityViewController(activityItems: [homePage], applicationActivities: [])
-        present(vc, animated: true, completion: nil)
+        //        if let url = video.thumbnailURL{
+        //            let data = try? Data(contentsOf: url)
+        //            if let imageData = data {
+        //                imgThumb.image = UIImage(data: imageData)
+        //            }
+        //        }
+        
+        if let thumbnailURL = video.thumbnailURL {
+            (URLSession.shared.dataTask(with: thumbnailURL, completionHandler: { data, response, error in
+                if error != nil {
+                    return
+                }
+                
+                OperationQueue.main.addOperation({
+                    if let imageData = data {
+                        self.imgThumb.image = UIImage(data: imageData)
+                    }
+                })
+                
+            })).resume()
+        }
         
     }
-
+    
+    @IBAction func channgeQuality(sender: UISwitch){
+        AVPlayerViewControllerManager.shared.lowQualityMode = sender.isOn
+    }
+    
+    func setupPlayer(){
+        
+        let playerViewController = AVPlayerViewControllerManager.shared.controller
+        playerViewController.view.frame = playerContainer.bounds
+        addChild(playerViewController)
+        playerContainer.addSubview(playerViewController.view)
+        playerViewController.didMove(toParent: self)
+        
+    }
+    
+    @IBAction func playBtnPress(sender:UIButton){
+        
+        //        self.present(AVPlayerViewControllerManager.shared.controller, animated: true) {
+        //            AVPlayerViewControllerManager.shared.controller.player?.play()
+        //        }
+        AVPlayerViewControllerManager.shared.controller.player?.play()
+        
+    }
+    
+    @IBAction func clearUrl(){
+        
+        UserDefaults.standard.set("", forKey: "save_url")
+        searchText.text = ""
+        listUrl.removeAll()
+        AVPlayerViewControllerManager.shared.video = nil
+        
+    }
+    
 }
 
-extension ViewController: YoutubePlayerViewDelegate{
-    
-    func playerView(_ playerView: YoutubePlayerView, didChangedToState state: YoutubePlayerState) {
-        
-        print(state.rawValue)
-        switch (state) {
-        case .playing:
-            break;
-        case .paused:
-            break;
-          default:
-            break;
-        }
-    }
-    
-}
