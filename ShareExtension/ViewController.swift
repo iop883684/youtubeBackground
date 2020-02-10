@@ -11,28 +11,22 @@ import XCDYouTubeKit
 import AVFoundation
 import AVKit
 
-struct YouTubeVideoQuality {
-    static let hd720 = NSNumber(value: XCDYouTubeVideoQuality.HD720.rawValue)
-    static let medium360 = NSNumber(value: XCDYouTubeVideoQuality.medium360.rawValue)
-    static let small240 = NSNumber(value: XCDYouTubeVideoQuality.small240.rawValue)
-}
-
 
 class ViewController: UIViewController {
     
     @IBOutlet var searchText:UITextField!
     @IBOutlet var btSearch:UIButton!
+    @IBOutlet var indicator:UIActivityIndicatorView!
     
     @IBOutlet var imgThumb:UIImageView!
     @IBOutlet var lbTitle:UILabel!
     
     @IBOutlet var btClearUrl:UIButton!
     @IBOutlet var qualitySwitch: UISwitch!
-    @IBOutlet var playerContainer: UIView!
+    @IBOutlet var playerContainer: UISwitch!
     
     var listUrl = [AnyHashable: URL]()
-    
-    var willResume = false
+    var currenLink = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +45,7 @@ class ViewController: UIViewController {
     @objc func appBecomeActive(){
         if let url = UserDefaults.standard.string(forKey: "save_url"){
             searchText.text = url
-            if listUrl.count == 0{
+            if listUrl.count == 0 || currenLink != url{
                 getStreamingLink(searchText.text)
             }
         }   
@@ -84,20 +78,38 @@ class ViewController: UIViewController {
         let playId = getYoutubeId(youtubeUrl: ytLink)
         
         listUrl.removeAll()
+        indicator.startAnimating()
         
         XCDYouTubeClient.default().getVideoWithIdentifier(playId) { [weak self] (video, error ) in
             
             guard let sSelf = self else {return}
-            if let video = video {
+            sSelf.indicator.stopAnimating()
+            
+            if let er = error {
+                
+                let alertVC = UIAlertController(title: "Error", message: er.localizedDescription, preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                alertVC.addAction(cancelAction)
+                sSelf.present(alertVC, animated: true, completion: nil)
+                print(er)
+                
+            } else if let video = video {
                 
                 sSelf.listUrl = video.streamURLs;
-                print(video.streamURLs)
+//                for streamLink in video.streamURLs{
+//                    print(streamLink.key)
+//                    print(streamLink.value)
+//                }
+//                print(video.streamURLs)
+                
                 sSelf.updateThumbTitle(video: video)
                 
                 AVPlayerViewControllerManager.shared.lowQualityMode = sSelf.qualitySwitch.isOn
                 AVPlayerViewControllerManager.shared.video = video
                 
             }
+            
+            sSelf.currenLink = ytLink
         }
         
     }
@@ -134,6 +146,10 @@ class ViewController: UIViewController {
         AVPlayerViewControllerManager.shared.lowQualityMode = sender.isOn
     }
     
+    @IBAction func channgeAudioPiority(sender: UISwitch){
+        AVPlayerViewControllerManager.shared.piorityAudio = sender.isOn
+    }
+    
     func setupPlayer(){
         
         let playerViewController = AVPlayerViewControllerManager.shared.controller
@@ -164,3 +180,9 @@ class ViewController: UIViewController {
     
 }
 
+extension UIViewController: UITextFieldDelegate{
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

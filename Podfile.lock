@@ -1,5 +1,5 @@
 PODS:
-  - XCDYouTubeKit (2.8.2)
+  - XCDYouTubeKit (2.9.0)
 
 DEPENDENCIES:
   - XCDYouTubeKit (~> 2.8)
@@ -9,7 +9,7 @@ SPEC REPOS:
     - XCDYouTubeKit
 
 SPEC CHECKSUMS:
-  XCDYouTubeKit: 79baadb0560673a67c771eba45f83e353fd12c1f
+  XCDYouTubeKit: 65b8c362ad9e8b69a7f6bba4e4fa3b26dc0c29f3
 
 PODFILE CHECKSUM: 2b2fd68f77286d68080182d50410fd17f68bae76
 

@@ -46,11 +46,19 @@ extension UIView {
     //MARK: - Public
     public static let shared = AVPlayerViewControllerManager()
     public var lowQualityMode = false
+    public var piorityAudio = false
     public dynamic var duration: Float = 0
     
     public var video: XCDYouTubeVideo? {
         didSet {
             guard let video = video else { return }
+            
+            if piorityAudio, let streamURL = video.streamURLs[140]{
+                self.player = AVPlayer(url: streamURL)
+                self.controller.player = self.player
+                return
+            }
+            
             guard lowQualityMode == false else {
                 guard let streamURL = video.streamURLs[XCDYouTubeVideoQualityHTTPLiveStreaming] ?? video.streamURLs[XCDYouTubeVideoQuality.medium360.rawValue] ?? video.streamURLs[XCDYouTubeVideoQuality.small240.rawValue] else { fatalError("No stream URL") }
                 
@@ -117,7 +125,6 @@ extension UIView {
         
         
     }
-
     
     public func disconnectPlayer() {
         self.controller.player = nil
@@ -127,12 +134,11 @@ extension UIView {
         let viewController = rootViewController.topMostViewController()
         guard let playerViewController = viewController as? AVPlayerViewController else {
             
-                
-                for childVC in rootViewController.children  {
-                    guard let playerViewController = childVC as? AVPlayerViewController else { continue }
-                    playerViewController.player = self.player
-                    break
-                }
+            for childVC in rootViewController.children  {
+                guard let playerViewController = childVC as? AVPlayerViewController else { continue }
+                playerViewController.player = self.player
+                break
+            }
             
             return
         }
@@ -199,15 +205,15 @@ extension UIView {
         
         commandCenter.changePlaybackPositionCommand.isEnabled = true
         commandCenter.changePlaybackPositionCommand.addTarget(self, action: #selector(self.handleChangePlaybackPositionRemoteCommandActions))
-    
+        
     }
     
     @objc func handleChangePlaybackPositionRemoteCommandActions(event:MPChangePlaybackPositionCommandEvent) -> MPRemoteCommandHandlerStatus
     {
         player?.seek(to: CMTime(seconds: event.positionTime, preferredTimescale: (player?.currentItem?.currentTime().timescale)!))
-
+        
         MPNowPlayingInfoCenter.default().nowPlayingInfo![MPNowPlayingInfoPropertyElapsedPlaybackTime] = event.positionTime
-
+        
         return MPRemoteCommandHandlerStatus.success
     }
     
