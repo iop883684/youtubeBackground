@@ -12,6 +12,8 @@
 		8036F19123E56FE70064AC5F /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8036F19023E56FE70064AC5F /* ActionViewController.swift */; };
 		8036F19423E56FE70064AC5F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8036F19223E56FE70064AC5F /* MainInterface.storyboard */; };
 		8036F19823E56FE70064AC5F /* OpenUp.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8036F18C23E56FE70064AC5F /* OpenUp.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		807702D623FF09CF00C2E6F3 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807702D423FF09CF00C2E6F3 /* VideoCell.swift */; };
+		807702D723FF09CF00C2E6F3 /* VideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 807702D523FF09CF00C2E6F3 /* VideoCell.xib */; };
 		807EA59923EF5BAC007F156A /* Pods_ShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DEADB163BBE7890E111D1A /* Pods_ShareExtension.framework */; };
 		807EA59D23EF724A007F156A /* AVPlayerViewControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807EA59C23EF724A007F156A /* AVPlayerViewControllerManager.swift */; };
 		8098D75F23E49AA80013710C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8098D75E23E49AA80013710C /* AppDelegate.swift */; };
@@ -19,6 +21,7 @@
 		8098D76623E49AA80013710C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8098D76423E49AA80013710C /* Main.storyboard */; };
 		8098D76823E49AA90013710C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8098D76723E49AA90013710C /* Assets.xcassets */; };
 		8098D76B23E49AA90013710C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8098D76923E49AA90013710C /* LaunchScreen.storyboard */; };
+		80F968DD23FDAFAB008CC856 /* SimpleCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F968DC23FDAFAB008CC856 /* SimpleCache.swift */; };
 		8307911EEF067F63E156EF64 /* Pods_OpenUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5E8D39A18294B6F29DF6B3 /* Pods_OpenUp.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +62,8 @@
 		8036F19023E56FE70064AC5F /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
 		8036F19323E56FE70064AC5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		8036F19523E56FE70064AC5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		807702D423FF09CF00C2E6F3 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
+		807702D523FF09CF00C2E6F3 /* VideoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoCell.xib; sourceTree = "<group>"; };
 		807EA59C23EF724A007F156A /* AVPlayerViewControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVPlayerViewControllerManager.swift; sourceTree = "<group>"; };
 		8098D75B23E49AA80013710C /* YT Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YT Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8098D75E23E49AA80013710C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +72,7 @@
 		8098D76723E49AA90013710C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8098D76A23E49AA90013710C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8098D76C23E49AA90013710C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		80F968DC23FDAFAB008CC856 /* SimpleCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleCache.swift; sourceTree = "<group>"; };
 		B5DEADB163BBE7890E111D1A /* Pods_ShareExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -136,9 +142,12 @@
 			children = (
 				802F495023E8A29E00F611DA /* ShareExtension.entitlements */,
 				8098D75E23E49AA80013710C /* AppDelegate.swift */,
-				8098D76223E49AA80013710C /* ViewController.swift */,
-				8098D76423E49AA80013710C /* Main.storyboard */,
+				80F968DC23FDAFAB008CC856 /* SimpleCache.swift */,
 				807EA59C23EF724A007F156A /* AVPlayerViewControllerManager.swift */,
+				8098D76223E49AA80013710C /* ViewController.swift */,
+				807702D423FF09CF00C2E6F3 /* VideoCell.swift */,
+				807702D523FF09CF00C2E6F3 /* VideoCell.xib */,
+				8098D76423E49AA80013710C /* Main.storyboard */,
 				8098D76723E49AA90013710C /* Assets.xcassets */,
 				8098D76923E49AA90013710C /* LaunchScreen.storyboard */,
 				8098D76C23E49AA90013710C /* Info.plist */,
@@ -252,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8098D76B23E49AA90013710C /* LaunchScreen.storyboard in Resources */,
+				807702D723FF09CF00C2E6F3 /* VideoCell.xib in Resources */,
 				8098D76823E49AA90013710C /* Assets.xcassets in Resources */,
 				8098D76623E49AA80013710C /* Main.storyboard in Resources */,
 			);
@@ -338,7 +348,9 @@
 			files = (
 				8098D76323E49AA80013710C /* ViewController.swift in Sources */,
 				807EA59D23EF724A007F156A /* AVPlayerViewControllerManager.swift in Sources */,
+				80F968DD23FDAFAB008CC856 /* SimpleCache.swift in Sources */,
 				8098D75F23E49AA80013710C /* AppDelegate.swift in Sources */,
+				807702D623FF09CF00C2E6F3 /* VideoCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

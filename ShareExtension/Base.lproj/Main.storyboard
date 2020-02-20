@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +19,7 @@
                                 <rect key="frame" x="20" y="64" width="374" height="60"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e9i-WN-YkG">
-                                        <rect key="frame" x="8" y="13" width="282" height="34"/>
+                                        <rect key="frame" x="8" y="13" width="314" height="34"/>
                                         <color key="backgroundColor" systemColor="secondarySystemFillColor" red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -28,10 +28,10 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PGa-61-92C">
-                                        <rect key="frame" x="298" y="15" width="68" height="30"/>
+                                        <rect key="frame" x="330" y="15" width="36" height="30"/>
                                         <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="  Get link  "/>
+                                        <state key="normal" title="  Go  "/>
                                         <connections>
                                             <action selector="searchBtPress" destination="BYZ-38-t0r" eventType="touchUpInside" id="p5c-lI-luV"/>
                                         </connections>
@@ -106,6 +106,14 @@
                                     <action selector="channgeQualityWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k9f-z6-0LO"/>
                                 </connections>
                             </switch>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6mu-I3-2PO">
+                                <rect key="frame" x="20" y="561.5" width="374" height="300.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="QJI-7I-Wmt"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="qM9-eT-7Wj"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -117,6 +125,7 @@
                             <constraint firstItem="zPk-nf-1Ul" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="28" id="9wI-YD-xnb"/>
                             <constraint firstItem="La5-RJ-Sdd" firstAttribute="leading" secondItem="fBK-kF-RQF" secondAttribute="trailing" constant="10" id="B2w-V5-WxX"/>
                             <constraint firstItem="dIO-GQ-4ZE" firstAttribute="top" secondItem="Pl1-6R-T5f" secondAttribute="bottom" constant="20" id="EoL-fh-fYy"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6mu-I3-2PO" secondAttribute="trailing" constant="20" id="GeM-vP-CFl"/>
                             <constraint firstItem="La5-RJ-Sdd" firstAttribute="top" secondItem="fBK-kF-RQF" secondAttribute="top" constant="8" id="Hyn-BH-SuH"/>
                             <constraint firstItem="PxE-8S-3en" firstAttribute="top" secondItem="Pl1-6R-T5f" secondAttribute="bottom" constant="80" id="JhV-eR-Szx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NGM-qT-fWx" secondAttribute="trailing" constant="28" id="TLe-Jp-sVf"/>
@@ -124,14 +133,17 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PxE-8S-3en" secondAttribute="trailing" constant="28" id="Xnd-DV-cdG"/>
                             <constraint firstItem="Kh0-H8-mDv" firstAttribute="centerY" secondItem="fBK-kF-RQF" secondAttribute="centerY" id="aK3-jZ-CtR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="La5-RJ-Sdd" secondAttribute="trailing" constant="28" id="cHp-s3-Ekw"/>
+                            <constraint firstItem="6mu-I3-2PO" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="eJs-Az-zI0"/>
                             <constraint firstItem="Pl1-6R-T5f" firstAttribute="centerY" secondItem="zPk-nf-1Ul" secondAttribute="centerY" id="fdh-cS-but"/>
                             <constraint firstItem="PxE-8S-3en" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="28" id="fpW-QF-Veh"/>
                             <constraint firstItem="zPk-nf-1Ul" firstAttribute="top" secondItem="fBK-kF-RQF" secondAttribute="bottom" constant="20" id="ggZ-GC-xn0"/>
+                            <constraint firstItem="6mu-I3-2PO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="hGb-ad-btP"/>
                             <constraint firstItem="fBK-kF-RQF" firstAttribute="top" secondItem="fNA-Ca-jVx" secondAttribute="bottom" id="k4c-Us-6yD"/>
                             <constraint firstItem="ZP9-I6-h7R" firstAttribute="centerY" secondItem="dIO-GQ-4ZE" secondAttribute="centerY" id="lBp-GX-prt"/>
                             <constraint firstItem="fBK-kF-RQF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="28" id="mme-M7-uQW"/>
                             <constraint firstItem="dIO-GQ-4ZE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="28" id="nIP-Zu-hBd"/>
                             <constraint firstItem="fNA-Ca-jVx" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="rVQ-Jb-iMs"/>
+                            <constraint firstItem="6mu-I3-2PO" firstAttribute="top" secondItem="PxE-8S-3en" secondAttribute="bottom" constant="20" id="sK8-Yi-NKS"/>
                             <constraint firstItem="fNA-Ca-jVx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="xqZ-KA-iE4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -145,6 +157,7 @@
                         <outlet property="playerContainer" destination="PxE-8S-3en" id="rCp-Uc-8pt"/>
                         <outlet property="qualitySwitch" destination="Pl1-6R-T5f" id="qeI-o5-svJ"/>
                         <outlet property="searchText" destination="e9i-WN-YkG" id="gh2-kH-QRI"/>
+                        <outlet property="tableView" destination="6mu-I3-2PO" id="kXF-o2-Jxm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

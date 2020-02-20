@@ -9,6 +9,7 @@ target 'ShareExtension' do
 #  pod "youtube-ios-player-helper", "~> 0.1.4"
 #  pod 'YoutubePlayerView'
   pod "XCDYouTubeKit", "~> 2.8"
+  pod "Kingfisher"
 
 end
 

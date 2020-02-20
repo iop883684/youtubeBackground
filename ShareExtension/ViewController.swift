@@ -25,6 +25,9 @@ class ViewController: UIViewController {
     @IBOutlet var qualitySwitch: UISwitch!
     @IBOutlet var playerContainer: UISwitch!
     
+    @IBOutlet var tableView:UITableView!
+    
+    var listVideo = [Data]()
     var listUrl = [AnyHashable: URL]()
     var currenLink = ""
     
@@ -33,6 +36,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         btSearch.layer.cornerRadius = 5
         btClearUrl.layer.cornerRadius = 5
+        
+        let nib = UINib(nibName: "VideoCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "VideoCell")
+        tableView.tableFooterView = UIView(frame: .zero)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(appBecomeActive),
@@ -95,14 +102,16 @@ class ViewController: UIViewController {
                 
             } else if let video = video {
                 
-                sSelf.listUrl = video.streamURLs;
-//                for streamLink in video.streamURLs{
-//                    print(streamLink.key)
-//                    print(streamLink.value)
-//                }
-//                print(video.streamURLs)
                 
-                sSelf.updateThumbTitle(video: video)
+                
+                sSelf.listUrl = video.streamURLs;
+                //                for streamLink in video.streamURLs{
+                //                    print(streamLink.key)
+                //                    print(streamLink.value)
+                //                }
+                //                print(video.streamURLs)
+                
+                sSelf.updateThumbTitle(video: video, link: link)
                 
                 AVPlayerViewControllerManager.shared.lowQualityMode = sSelf.qualitySwitch.isOn
                 AVPlayerViewControllerManager.shared.video = video
@@ -114,16 +123,10 @@ class ViewController: UIViewController {
         
     }
     
-    func updateThumbTitle(video: XCDYouTubeVideo){
+    func updateThumbTitle(video: XCDYouTubeVideo, link: String?){
+        
         
         lbTitle.text = video.title
-        
-        //        if let url = video.thumbnailURL{
-        //            let data = try? Data(contentsOf: url)
-        //            if let imageData = data {
-        //                imgThumb.image = UIImage(data: imageData)
-        //            }
-        //        }
         
         if let thumbnailURL = video.thumbnailURL {
             (URLSession.shared.dataTask(with: thumbnailURL, completionHandler: { data, response, error in
@@ -139,6 +142,23 @@ class ViewController: UIViewController {
                 
             })).resume()
         }
+        
+        do{
+            let saveVideo = Video(title: video.title, thumbUrl: video.thumbnailURL?.absoluteString ?? "", url: link ?? "")
+            let encoded = try JSONEncoder().encode(saveVideo)
+            VideoCache.appendData(value: encoded, type: .playing)
+        }catch{
+            print(error.localizedDescription)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
+            self.listVideo = VideoCache.getData(type: .playing)
+            print("item", self.listVideo.count)
+            self.tableView.reloadData()
+        }
+        
+        
+        
         
     }
     
@@ -180,9 +200,39 @@ class ViewController: UIViewController {
     
 }
 
-extension UIViewController: UITextFieldDelegate{
+extension ViewController: UITextFieldDelegate{
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
+}
+
+extension ViewController: UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return listVideo.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "VideoCell", for: indexPath) as! VideoCell
+        cell.setDataCell(data: listVideo[indexPath.row])
+        return cell
+    }
+    
+}
+
+extension ViewController: UITableViewDelegate{
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        do{
+            let video =  try JSONDecoder().decode(Video.self, from: listVideo[indexPath.row])
+            getStreamingLink(video.url)
+        }catch{
+            print(error.localizedDescription)
+            
+        }
+        
+    }
+    
 }

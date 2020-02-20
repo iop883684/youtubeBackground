@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ObA-dk-sSI">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ObA-dk-sSI">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -32,12 +32,36 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u2M-FS-clJ">
-                                <rect key="frame" x="10" y="254" width="300" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Youtube Link" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u2M-FS-clJ">
+                                <rect key="frame" x="10" y="254.00000000000003" width="300" height="20.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="egT-n1-xKc">
+                                <rect key="frame" x="25.666666666666671" y="464" width="109.00000000000001" height="44"/>
+                                <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Z2R-F9-r1f"/>
+                                </constraints>
+                                <state key="normal" title="   Add to list   "/>
+                                <connections>
+                                    <action selector="addBtPress" destination="ObA-dk-sSI" eventType="touchUpInside" id="G2L-yb-ng6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ziu-VW-kdH">
+                                <rect key="frame" x="188.66666666666666" y="464" width="102.99999999999997" height="44"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="9Pg-1w-QEa"/>
+                                </constraints>
+                                <state key="normal" title="   Play Now   ">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="play" destination="ObA-dk-sSI" eventType="touchUpInside" id="FMS-f6-zDS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -45,20 +69,27 @@
                             <constraint firstItem="VVe-Uw-JpX" firstAttribute="trailing" secondItem="NOA-Dm-cuz" secondAttribute="trailing" id="A05-Pj-hrr"/>
                             <constraint firstItem="u2M-FS-clJ" firstAttribute="centerY" secondItem="zMn-AG-sqS" secondAttribute="centerY" id="G8h-Fb-l3W"/>
                             <constraint firstItem="NOA-Dm-cuz" firstAttribute="leading" secondItem="VVe-Uw-JpX" secondAttribute="leading" id="HxO-8t-aoh"/>
+                            <constraint firstItem="VVe-Uw-JpX" firstAttribute="bottom" secondItem="egT-n1-xKc" secondAttribute="bottom" constant="20" id="TtO-G5-5HM"/>
+                            <constraint firstItem="egT-n1-xKc" firstAttribute="centerX" secondItem="zMn-AG-sqS" secondAttribute="centerX" multiplier="0.5" id="Vp9-LJ-Rla"/>
+                            <constraint firstItem="VVe-Uw-JpX" firstAttribute="bottom" secondItem="Ziu-VW-kdH" secondAttribute="bottom" constant="20" id="cQp-ns-zwv"/>
+                            <constraint firstItem="Ziu-VW-kdH" firstAttribute="centerX" secondItem="zMn-AG-sqS" secondAttribute="centerX" multiplier="1.5" id="mP5-bQ-Ud1"/>
                             <constraint firstItem="u2M-FS-clJ" firstAttribute="leading" secondItem="VVe-Uw-JpX" secondAttribute="leading" constant="10" id="s7e-9h-nkV"/>
                             <constraint firstItem="NOA-Dm-cuz" firstAttribute="top" secondItem="VVe-Uw-JpX" secondAttribute="top" id="we0-1t-bgp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VVe-Uw-JpX"/>
                     </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="528"/>
                     <connections>
+                        <outlet property="btAdd" destination="egT-n1-xKc" id="fNA-5f-61Q"/>
+                        <outlet property="btPlay" destination="Ziu-VW-kdH" id="wU0-K3-UUq"/>
                         <outlet property="lbUrl" destination="u2M-FS-clJ" id="bOG-b4-BBX"/>
                         <outlet property="view" destination="zMn-AG-sqS" id="Qma-de-2ek"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="133" y="139"/>
+            <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
         </scene>
     </scenes>
 </document>

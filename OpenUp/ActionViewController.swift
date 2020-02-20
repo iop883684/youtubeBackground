@@ -10,14 +10,18 @@ import UIKit
 import MobileCoreServices
 
 class ActionViewController: UIViewController {
-
+    
     @IBOutlet weak var lbUrl: UILabel!
+    @IBOutlet weak var btAdd: UIButton!
+    @IBOutlet weak var btPlay: UIButton!
     var urlStr = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         // Get the item[s] we're handling from the extension context.
+        btAdd.layer.cornerRadius = btAdd.frame.height/2
+        btPlay.layer.cornerRadius = btPlay.frame.height/2
         
         // For example, look for an image and place it into an image view.
         // Replace this with something appropriate for the type[s] your extension supports.
@@ -49,16 +53,25 @@ class ActionViewController: UIViewController {
     @IBAction func cancel(){
         self.extensionContext?.cancelRequest(withError:NSError(domain: "com.domain.name", code: 0, userInfo: nil))
     }
-
+    
+    @IBAction func addBtPress() {
+        
+        let success = openURL(URL(string: "shareUrl://add/\(self.urlStr)")!)
+        print(success)
+        self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+        
+    }
+    
+    
     @IBAction func play() {
         // Return any edited content to the host app.
         // This template doesn't do anything, so we just echo the passed in items.
-//        self.extensionContext!.completeRequest(returningItems: self.extensionContext!.inputItems, completionHandler: nil)
-//        self.extensionContext?.open(URL(string: "mvplanner:")!, completionHandler: nil)
-        let success = openURL(URL(string: "shareUrl://\(self.urlStr)")!)
+        //        self.extensionContext!.completeRequest(returningItems: self.extensionContext!.inputItems, completionHandler: nil)
+        //        self.extensionContext?.open(URL(string: "mvplanner:")!, completionHandler: nil)
+        let success = openURL(URL(string: "shareUrl://play/\(self.urlStr)")!)
         print(success)
         self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
-
+        
     }
     
     @objc func openURL(_ url: URL) -> Bool {
@@ -71,5 +84,5 @@ class ActionViewController: UIViewController {
         }
         return false
     }
-
+    
 }

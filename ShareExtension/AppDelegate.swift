@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        application.beginReceivingRemoteControlEvents()
         
         #if targetEnvironment(simulator)
-        UserDefaults.standard.set("https://www.youtube.com/watch?v=W86cTIoMv2U", forKey: "save_url")
+        UserDefaults.standard.set("https://www.youtube.com/watch?v=yn9qhQSMCRk", forKey: "save_url")
         #endif
         
         return true
@@ -36,9 +36,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        let ytUrl = url.absoluteString.replacingOccurrences(of: "shareUrl://", with: "")
-        if ytUrl.contains("youtube"){
+        let ytActionUrl = url.absoluteString.replacingOccurrences(of: "shareUrl://", with: "")
+        if ytActionUrl.contains("add") {
+            let ytUrl = url.absoluteString.replacingOccurrences(of: "add/", with: "")
             UserDefaults.standard.set(ytUrl, forKey: "save_url")
+        } else if ytActionUrl.contains("play"){
+            let ytUrl = url.absoluteString.replacingOccurrences(of: "play/", with: "")
+            UserDefaults.standard.set(ytUrl, forKey: "save_url")
+        } else if ytActionUrl.contains("youtube"){
+            UserDefaults.standard.set(ytActionUrl, forKey: "save_url")
         }
 
         return true
