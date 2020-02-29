@@ -14,6 +14,7 @@ class VideoCell: UITableViewCell {
     
     @IBOutlet var lbTitle:UILabel!
     @IBOutlet var imgThumb:UIImageView!
+    @IBOutlet var lbTime:UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,10 +25,8 @@ class VideoCell: UITableViewCell {
         
         do{
             let video =  try JSONDecoder().decode(Video.self, from: data)
-            print(video.title)
-            
             lbTitle.text = video.title
-
+            lbTime.text = stringFromTimeInterval(interval: video.duration)
             imgThumb.kf.setImage(with: URL(string: video.thumbUrl),
                                  options: [.transition(ImageTransition.fade(0.5)), .forceTransition])
             
@@ -36,6 +35,13 @@ class VideoCell: UITableViewCell {
 
         }
         
+    }
+    
+    func stringFromTimeInterval(interval: Int) -> String {
+
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        return String(format: " %02d:%02d ", minutes, seconds)
     }
     
 }

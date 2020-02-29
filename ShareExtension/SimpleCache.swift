@@ -11,7 +11,7 @@ import UIKit
 enum CacheType:String {
     
     case playing = "playing"
-    case history = "histories"
+//    case history = "histories"
     
 }
 
@@ -19,6 +19,7 @@ struct Video: Codable, Equatable {
     var title:String
     var thumbUrl:String
     var url:String
+    var duration:Int
 }
 
 class VideoCache: NSObject {

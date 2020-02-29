@@ -20,7 +20,6 @@
                         <rect key="frame" x="8" y="8" width="137" height="77"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="UsD-8j-BnT" secondAttribute="height" multiplier="16:9" id="Ta0-AW-cGX"/>
-                            <constraint firstAttribute="height" constant="77" id="g29-ic-fOv"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCc-TV-1Az">
@@ -29,13 +28,22 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vqn-r9-t8P">
+                        <rect key="frame" x="115" y="69" width="30" height="16"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="MCc-TV-1Az" secondAttribute="bottom" constant="8" id="5DS-Sj-ELj"/>
                     <constraint firstAttribute="trailing" secondItem="MCc-TV-1Az" secondAttribute="trailing" constant="8" id="8Fu-2D-Dav"/>
                     <constraint firstItem="UsD-8j-BnT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Pdk-Fu-v1K"/>
+                    <constraint firstItem="vqn-r9-t8P" firstAttribute="bottom" secondItem="UsD-8j-BnT" secondAttribute="bottom" id="ZdS-Wr-dxH"/>
                     <constraint firstItem="MCc-TV-1Az" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="f3z-hX-Kyc"/>
                     <constraint firstAttribute="bottom" secondItem="UsD-8j-BnT" secondAttribute="bottom" constant="8" id="fiW-bA-AXt"/>
+                    <constraint firstItem="vqn-r9-t8P" firstAttribute="trailing" secondItem="UsD-8j-BnT" secondAttribute="trailing" id="hIW-yC-NeT"/>
                     <constraint firstItem="UsD-8j-BnT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="onF-RP-0R4"/>
                     <constraint firstItem="MCc-TV-1Az" firstAttribute="leading" secondItem="UsD-8j-BnT" secondAttribute="trailing" constant="8" id="rT1-cl-4V9"/>
                 </constraints>
@@ -43,6 +51,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="imgThumb" destination="UsD-8j-BnT" id="3Na-Uw-mQn"/>
+                <outlet property="lbTime" destination="vqn-r9-t8P" id="fa3-wM-MLe"/>
                 <outlet property="lbTitle" destination="MCc-TV-1Az" id="flN-J5-VTw"/>
             </connections>
             <point key="canvasLocation" x="131.8840579710145" y="136.94196428571428"/>

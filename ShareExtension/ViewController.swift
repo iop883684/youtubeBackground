@@ -11,80 +11,99 @@ import XCDYouTubeKit
 import AVFoundation
 import AVKit
 
+enum ActionType: String {
+    case none = "none"
+    case play = "play"
+    case add = "add"
+    case playAndAdd = "playAndAdd"
+}
+
 
 class ViewController: UIViewController {
+
+    @IBOutlet var btClipBoard:UIButton!
+    @IBOutlet var btStop:UIButton!
+    @IBOutlet var btNext:UIButton!
     
-    @IBOutlet var searchText:UITextField!
-    @IBOutlet var btSearch:UIButton!
     @IBOutlet var indicator:UIActivityIndicatorView!
     
-    @IBOutlet var imgThumb:UIImageView!
-    @IBOutlet var lbTitle:UILabel!
-    
-    @IBOutlet var btClearUrl:UIButton!
     @IBOutlet var qualitySwitch: UISwitch!
+    @IBOutlet var playNextSwitch: UISwitch!
     @IBOutlet var playerContainer: UISwitch!
     
     @IBOutlet var tableView:UITableView!
     
     var listVideo = [Data]()
-    var listUrl = [AnyHashable: URL]()
-    var currenLink = ""
+    var currentPlayIndex = 0
+    var autoPlayNext = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        btSearch.layer.cornerRadius = 5
-        btClearUrl.layer.cornerRadius = 5
+        btClipBoard.layer.cornerRadius = 5
+        btStop.layer.cornerRadius = 5
+        btNext.layer.cornerRadius = 5
+        autoPlayNext = playNextSwitch.isOn
         
         let nib = UINib(nibName: "VideoCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "VideoCell")
         tableView.tableFooterView = UIView(frame: .zero)
+        tableView.rowHeight = 93
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(appBecomeActive),
-                                               name: UIApplication.didBecomeActiveNotification,
+                                               selector: #selector(addNewUrl(noti:)),
+                                               name: kNotiLoadVideo,
                                                object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(playerDidFinishPlaying),
+                                               name: .AVPlayerItemDidPlayToEndTime,
+                                               object: nil)
+        
         setupPlayer()
+        reloadData()
     }
     
-    
-    @objc func appBecomeActive(){
-        if let url = UserDefaults.standard.string(forKey: "save_url"){
-            searchText.text = url
-            if listUrl.count == 0 || currenLink != url{
-                getStreamingLink(searchText.text)
-            }
-        }   
+        
+    @objc func playerDidFinishPlaying(){
+        print("finish playing")
+        if autoPlayNext{
+            nextBtnPress()
+        }
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
+    @objc func addNewUrl(noti:Notification){
         
-        searchText.text = UserDefaults.standard.string(forKey: "save_url")
+        guard let obj = noti.userInfo else{
+            return
+        }
+        
+        guard let url = obj["url"] as? String else{
+            return
+        }
+        guard let actionStr = obj["action"] as? String, let action = ActionType(rawValue: actionStr)  else{
+            return
+        }
+        
+        getStreamingLink(url, action)
+        
         
     }
     
-    @IBAction func searchBtPress(){
-        
-        getStreamingLink(searchText.text)
-        
-    }
     
     func getYoutubeId(youtubeUrl: String) -> String? {
         return URLComponents(string: youtubeUrl)?.queryItems?.first(where: { $0.name == "v" })?.value
     }
     
-    func getStreamingLink(_ link: String?){
+    func getStreamingLink(_ link: String?, _ action:ActionType){
         
-        guard let ytLink = link else{
+        guard let ytLink = link, ytLink.count > 0 else{
             print("empty string")
             return
         }
         print(ytLink)
         let playId = getYoutubeId(youtubeUrl: ytLink)
         
-        listUrl.removeAll()
         indicator.startAnimating()
         
         XCDYouTubeClient.default().getVideoWithIdentifier(playId) { [weak self] (video, error ) in
@@ -102,49 +121,39 @@ class ViewController: UIViewController {
                 
             } else if let video = video {
                 
+//                print(video.streamURLs)
                 
+                if action == .play || action == .playAndAdd{
+                    
+                    AVPlayerViewControllerManager.shared.lowQualityMode = sSelf.qualitySwitch.isOn
+                    AVPlayerViewControllerManager.shared.video = video
+                    
+                    AVPlayerViewControllerManager.shared.player?.play()
+                    
+                    if action == .playAndAdd{
+                        //ko can -1 vi chua reload tableview
+                        sSelf.currentPlayIndex = sSelf.listVideo.count
+                    }
+                    
+                }
                 
-                sSelf.listUrl = video.streamURLs;
-                //                for streamLink in video.streamURLs{
-                //                    print(streamLink.key)
-                //                    print(streamLink.value)
-                //                }
-                //                print(video.streamURLs)
-                
-                sSelf.updateThumbTitle(video: video, link: link)
-                
-                AVPlayerViewControllerManager.shared.lowQualityMode = sSelf.qualitySwitch.isOn
-                AVPlayerViewControllerManager.shared.video = video
+                if action == .add || action == .playAndAdd{
+                    sSelf.addData(video: video, link: link)
+                } else if sSelf.listVideo.count == 0{
+                    sSelf.reloadData()
+                }
+
                 
             }
-            
-            sSelf.currenLink = ytLink
+
         }
         
     }
     
-    func updateThumbTitle(video: XCDYouTubeVideo, link: String?){
-        
-        
-        lbTitle.text = video.title
-        
-        if let thumbnailURL = video.thumbnailURL {
-            (URLSession.shared.dataTask(with: thumbnailURL, completionHandler: { data, response, error in
-                if error != nil {
-                    return
-                }
-                
-                OperationQueue.main.addOperation({
-                    if let imageData = data {
-                        self.imgThumb.image = UIImage(data: imageData)
-                    }
-                })
-                
-            })).resume()
-        }
+    func addData(video: XCDYouTubeVideo, link: String?){
         
         do{
-            let saveVideo = Video(title: video.title, thumbUrl: video.thumbnailURL?.absoluteString ?? "", url: link ?? "")
+            let saveVideo = Video(title: video.title, thumbUrl: video.thumbnailURL?.absoluteString ?? "", url: link ?? "", duration: Int(video.duration))
             let encoded = try JSONEncoder().encode(saveVideo)
             VideoCache.appendData(value: encoded, type: .playing)
         }catch{
@@ -152,22 +161,43 @@ class ViewController: UIViewController {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
-            self.listVideo = VideoCache.getData(type: .playing)
-            print("item", self.listVideo.count)
-            self.tableView.reloadData()
+            self.reloadData()
         }
-        
-        
-        
         
     }
     
-    @IBAction func channgeQuality(sender: UISwitch){
+    func reloadData(){
+        self.listVideo = VideoCache.getData(type: .playing)
+        print("item", self.listVideo.count)
+        self.tableView.reloadData()
+    }
+    
+    
+    @IBAction func lowQualitySwitch(sender: UISwitch){
         AVPlayerViewControllerManager.shared.lowQualityMode = sender.isOn
     }
     
-    @IBAction func channgeAudioPiority(sender: UISwitch){
+    @IBAction func audioPioritySwitch(sender: UISwitch){
         AVPlayerViewControllerManager.shared.piorityAudio = sender.isOn
+    }
+    
+    @IBAction func autoPlayNextSwitch(sender: UISwitch){
+        autoPlayNext = sender.isOn
+    }
+    
+    @IBAction func btClipBoardPress(){
+        
+        // read from clipboard
+        if let content = UIPasteboard.general.string{
+            print(content)
+            //https://youtu.be/zZ2SNihQ03w
+            if content.contains("youtu"){
+                let newUrl = content.replacingOccurrences(of: "https://youtu.be/", with: "https://www.youtube.com/watch?v=")
+                getStreamingLink(newUrl, .playAndAdd)
+            }
+        }
+        
+        
     }
     
     func setupPlayer(){
@@ -180,20 +210,32 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func playBtnPress(sender:UIButton){
+     func playBtnPress(sender:UIButton){
         
-        //        self.present(AVPlayerViewControllerManager.shared.controller, animated: true) {
-        //            AVPlayerViewControllerManager.shared.controller.player?.play()
-        //        }
         AVPlayerViewControllerManager.shared.controller.player?.play()
         
     }
     
-    @IBAction func clearUrl(){
+    @IBAction func nextBtnPress(){
+
+        if listVideo.count - 1  > currentPlayIndex {
+            currentPlayIndex += 1
+            tableView.selectRow(at: IndexPath(row: currentPlayIndex, section: 0), animated: true, scrollPosition: .middle)
+            do{
+                let video =  try JSONDecoder().decode(Video.self, from: listVideo[currentPlayIndex])
+                getStreamingLink(video.url, .play)
+            }catch{
+                print(error.localizedDescription)
+
+            }
+        }
         
-        UserDefaults.standard.set("", forKey: "save_url")
-        searchText.text = ""
-        listUrl.removeAll()
+        
+    }
+    
+    @IBAction func stopBtnPress(){
+
+        AVPlayerViewControllerManager.shared.player?.pause()
         AVPlayerViewControllerManager.shared.video = nil
         
     }
@@ -223,11 +265,29 @@ extension ViewController: UITableViewDataSource{
 
 extension ViewController: UITableViewDelegate{
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete{
+            listVideo.remove(at: indexPath.row)
+            VideoCache.deleteData(index: indexPath.row, type: .playing)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            if currentPlayIndex >= indexPath.row{
+                currentPlayIndex -= 1
+            }
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        currentPlayIndex = indexPath.row
         do{
             let video =  try JSONDecoder().decode(Video.self, from: listVideo[indexPath.row])
-            getStreamingLink(video.url)
+            getStreamingLink(video.url, .play)
         }catch{
             print(error.localizedDescription)
             

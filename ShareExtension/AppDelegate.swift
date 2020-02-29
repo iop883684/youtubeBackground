@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 
+let kNotiLoadVideo = Notification.Name("load_video")
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -27,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        application.beginReceivingRemoteControlEvents()
         
         #if targetEnvironment(simulator)
-        UserDefaults.standard.set("https://www.youtube.com/watch?v=yn9qhQSMCRk", forKey: "save_url")
+        UIPasteboard.general.string = "https://www.youtube.com/watch?v=zZ2SNihQ03w"
         #endif
         
         return true
@@ -39,12 +41,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let ytActionUrl = url.absoluteString.replacingOccurrences(of: "shareUrl://", with: "")
         if ytActionUrl.contains("add") {
             let ytUrl = url.absoluteString.replacingOccurrences(of: "add/", with: "")
-            UserDefaults.standard.set(ytUrl, forKey: "save_url")
+            NotificationCenter.default.post(name: kNotiLoadVideo, object: nil,
+                                            userInfo: [
+                                                "action": ActionType.add.rawValue,
+                                                "url": ytUrl]
+            )
         } else if ytActionUrl.contains("play"){
             let ytUrl = url.absoluteString.replacingOccurrences(of: "play/", with: "")
-            UserDefaults.standard.set(ytUrl, forKey: "save_url")
+            NotificationCenter.default.post(name: kNotiLoadVideo, object: nil,
+                                            userInfo: [
+                                                "action": ActionType.playAndAdd.rawValue,
+                                                "url": ytUrl]
+            )
         } else if ytActionUrl.contains("youtube"){
-            UserDefaults.standard.set(ytActionUrl, forKey: "save_url")
+            NotificationCenter.default.post(name: kNotiLoadVideo, object: nil,
+                                            userInfo: [
+                                                "action": ActionType.none.rawValue,
+                                                "url": ytActionUrl]
+            )
         }
 
         return true
