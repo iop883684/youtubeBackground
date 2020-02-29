@@ -3,9 +3,9 @@
 This is action extension support open youtube video into XCDYouTubeKit
 
 <p align="center">
-<img src="Screenshots/img1.png" width="207" height="448">
+<img src="Screenshots/img1.png" width="250" height="445">
 <img src="Screenshots/img2.png" width="207" height="448">
-<img src="Screenshots/img3.png" width="207" height="448">
+<img src="Screenshots/img3.png" width="250" height="445">
 </p>
 
 ## License
